@@ -1,0 +1,20 @@
+#!/usr/bin/python2
+import os
+print "Welcome To the Cloud Computing"
+while True :
+	print "1.Software as a service\n 2.Storage as a service \n 3.Infrastructure as a Service \n 4. Exit"
+	x=raw_input("Enter Your Choice ")
+	if x == '1' :
+		os.system('python /root/Desktop/saasf')
+		break
+	elif x == '2' :
+		os.system('python /root/Desktop/staas')
+		break
+	elif x == '3' :
+		os.system('python /root/Desktop/IAAS')
+		break
+	elif x == '4' :
+		#os.system('python /root/Desktop/saasf')
+		break
+	else :
+		print "KINDLY HAVE A EYE TEST"

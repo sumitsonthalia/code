@@ -1,0 +1,12 @@
+
+[Desktop Entry]
+Name=RDCloud Notepad
+Comment=Text Editor
+Exec=/root/Desktop/cloudnote
+Icon=/usr/share/pixmaps/apple-green.png
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=NEW;
+X-Desktop-File-Install-Version=0.15
+

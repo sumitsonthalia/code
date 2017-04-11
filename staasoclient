@@ -1,0 +1,3 @@
+import os 
+os.system('mkdir /media/rdbox')
+os.system('sshfs kk@192.168.234.132:/staaso/kk /media/rdbox')

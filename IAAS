@@ -1,0 +1,28 @@
+#!/usr/bin/python2
+import os
+import getpass
+import commands
+import sys
+import fileinput
+cmd=commands.getstatusoutput("hostname -i")
+if cmd[0]==0:
+	k=cmd[1]
+while True:
+	print "Welcome To Infrastructure as a Service \n Choose the OS:-\n 1:Windows 7 \n 2:RHEL 7 \n 3:RHEL 6.4"
+	x=raw_input('Enter Your Choice No')
+	name=raw_input('Enter Your OS NAME')
+	ram=raw_input('Enter Your RAM SIZE')
+	hd=raw_input('Enter Your HARDISK SIZE')
+	vcp=raw_input('Enter Your No of cpu\'s')
+	if x == '1':
+		ks="ks=':'"		
+		os.system('virt-install --name='+name+' --ram='+ram+' --vcpu='+vcp+' --cdrom=/root/Desktop/.iso --os-type = win7 --os-variant= windows --disk path=/myos/new.img,size='+hd+' --extra-args=')
+		
+	elif x == '2':
+		os.system("virt-install --name="+name+" --ram="+ram+" --vcpu="+vcp+" --cdrom=/root/Desktop/rhel-server-7.0-x86_64-dvd.iso --os-type = linux --os-variant= rhel7 --disk path=/myos/new.img,size="+hd+" --extra-args= 'ks=/root/Desktop/rhel7.cfg' --noautoconsole")
+	elif x == '3':
+		os.system('virt-install --name='+name+' --ram='+ram+' --vcpu='+vcp+' --cdrom=/root/download/'+iso+'.iso --os-type = linux --os-variant= rhel6 --disk path=/myos/new.img,size='+hd+' --graphics vnc,listen = 0.0.0.0 , port 5910')
+		f1=open('client','w')
+		f1.write("#!/usr/bin/python2 \nimport os\nos.system('vncviewer "+k+":5910')")
+	else :
+		print 'HAVE A EYE TEST'

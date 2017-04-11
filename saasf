@@ -1,0 +1,77 @@
+#!/usr/bin/python2
+import os
+import getpass
+import commands
+import sys
+import fileinput
+t='Exec'
+cmd=commands.getstatusoutput("hostname -i")
+if cmd[0]==0:
+	k=cmd[1]
+while True:
+	print "Welcome To Software as a Service \n Choose the Software:-\n 1:Firefox \n 2:calculator\n 3:Terminal \n 4. Notepad \n 5.wine wordpad"
+	x=raw_input('Enter Your Choice No')
+	if x == '1':
+		uid=raw_input('Enter User Name')
+		pas=getpass.getpass('Enter Password')
+		os.system('useradd -s /usr/bin/firefox  '  +uid)
+		os.system("echo " +pas+ " | passwd " +pas+ " --stdin" )
+		fi=open('cloud','w+')
+		fi.write("#!/usr/bin/python \nimport os \nos.system('ssh -X -l "+uid+"  "+k+ " firefox')\n")
+		fi.close()
+		fi=open('client','w+')
+		fi.write("#!/usr/bin/python \nimport os\nos.system('chmod +x cloud') \nos.system('cp change.desktop /usr/share/applications/cloudfire.desktop')\n")
+		fi.write("os.system('rm change.desktop')")
+		break
+	elif x == '2':
+		uid=raw_input('Enter User Name')
+		pas=getpass.getpass('Enter Password')
+		os.system('useradd  '  +uid)
+		os.system("echo " +pas+ " | passwd " +pas+ " --stdin" )
+		fi=open('cloud','w+')
+		fi.write("#!/usr/bin/python \nimport os \nos.system('ssh -X -l "+uid+"  "+k+ " gcalctool ')\n")
+		fi.close()
+		fi=open('client','w+')
+		fi.write("#!/usr/bin/python \nimport os\nos.system('chmod +x cloud') \nos.system('cp changec.desktop /usr/share/applications/cloudcal.desktop')\n")
+		#fi.write("os.system('rm changec.desktop')")
+		break	
+	elif x == '3':
+		uid=raw_input('Enter User Name')
+		pas=getpass.getpass('Enter Password')	
+		os.system('useradd  '  +uid)
+		os.system("echo " +pas+ " | passwd " +pas+ " --stdin" )
+		fi=open('cloud','w+')
+		fi.write("#!/usr/bin/python \nimport os \nos.system('ssh -X -l "+uid+"  "+k+ " gnome-terminal ')\n")
+		fi.close()
+		fi=open('client','w+')
+		fi.write("#!/usr/bin/python \nimport os\nos.system('chmod +x cloud') \nos.system('cp changet.desktop /usr/share/applications/cloudter.desktop')\n")
+		#fi.write("os.system('rm changet.desktop')")
+		break
+	elif x == '4':
+		uid=raw_input('Enter User Name')
+		pas=getpass.getpass('Enter Password')	
+		os.system('useradd  '  +uid)
+		os.system("echo " +pas+ " | passwd " +pas+ " --stdin" )
+		fi=open('cloudnote','wb')
+		fi.write("#!/usr/bin/python \nimport os \nos.system('ssh -X -l "+uid+"  "+k+ " wine Notepad ')\n")
+		fi.close()
+		fi=open('client','wb')
+		fi.write("#!/usr/bin/python \nimport os\nos.system('chmod +x cloudnote') \nos.system('cp rdcloudnotepad.desktop /usr/share/applications/rdcloudnotepad.desktop')\n")
+		#fi.write("os.system('rm changet.desktop')")
+		break
+	elif x == '5':
+		uid=raw_input('Enter User Name')
+		pas=getpass.getpass('Enter Password')	
+		os.system('useradd  '  +uid)
+		os.system("echo " +pas+ " | passwd " +pas+ " --stdin" )
+		fi=open('cloudword','wb')
+		fi.write("#!/usr/bin/python \nimport os \nos.system('ssh -X -l "+uid+"  "+k+ " wine wordPad ')\n")
+		fi.close()
+		fi=open('clientword','wb')
+		fi.write("#!/usr/bin/python \nimport os\nos.system('chmod +x cloudword') \nos.system('cp rdcloudwordpad.desktop /usr/share/applications/rdcloudwordpad.desktop')\n")
+		#fi.write("os.system('rm changet.desktop')")
+		break
+	else :
+		print "Kindly have a EYE TEST"
+		break
+print k

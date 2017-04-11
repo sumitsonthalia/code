@@ -1,0 +1,81 @@
+import os
+import getpass
+import commands
+import sys
+import fileinput
+t='Exec'
+cmd=commands.getstatusoutput("hostname -i")
+if cmd[0]==0:
+	k=cmd[1]
+os.system("echo -e 'n\ne\n\n\n w\n'|fdisk -cu /dev/sda")
+os.system("partx -a /dev/sda")
+c=commands.getstatusoutput("fdisk -cul /dev/sda|grep ^/dev/sda |wc -l")
+os.system("pvcreate /dev/sda"+c[1])
+os.system("vgcreate vg1 /dev/sda"+c[1])
+		
+while True:
+	print "Welcome To Storage as a Service \n Choose the Storage type:-\n 1:Object NFS \n 2:Object SSHFS \n 3:block"
+	x=raw_input('Enter Your Choice No')
+	if x == '1':
+		ce=commands.getstatusoutput("df -hT|grep /dev/sda3|cut -d' ' -f15|cut -c1-3")
+		n=float(raw_input("Enter the required size in GB"))
+		if n >= float(ce[1]):
+			print "SORY WE DONT HAVE ENOUGH RESOURCE TRY AMAZON"
+		else :
+			uid=raw_input('Enter User Name')
+			pas=getpass.getpass('Enter Password')
+			os.system('useradd -s /usr/bin/firefox  '  +uid)
+			os.system("echo " +pas+ " | passwd " +pas+ " --stdin" )
+			os.system("lvcreate --name "+uid+"--size "+n+"G  vg1")
+			os.system("mkfs.vfat /dev/vg1/"+uid)
+			os.system("mkdir /staaso/"+uid)
+			os.system("mount /dev/vg1/"+uid" /staaso/"+uid)
+			f1=open('/etc/exports','w+')
+			f1.read()
+			f1.write("/staaso/"+uid+ "*(rw,no_root_squash)")
+			f1.close()
+			os.system("/etc/init.d/nfs restart")
+			f1=open('staasoclient','w+')
+			f1.write("os.system('mkdir /media/rdbox')\nos.system('mount "+k+":/staaso/"+uid" /media/rdbox')")
+			f1.close()
+			os.system('chmod +x staasoclient')			
+			break
+	elif x == '2':
+		ce=commands.getstatusoutput("df -hT|grep /dev/sda3|cut -d' ' -f15|cut -c1-3")
+		n=float(raw_input("Enter the required size in GB"))
+		if n >= float(ce[1]):
+			print "SORY WE DONT HAVE ENOUGH RESOURCE TRY AMAZON"
+		else :
+			uid=raw_input('Enter User Name')
+			pas=getpass.getpass('Enter Password')
+			os.system('useradd -s /usr/bin/firefox  '  +uid)
+			os.system("echo " +pas+ " | passwd " +pas+ " --stdin" )
+			os.system("lvcreate --name "+uid+"--size "+n+"G  vg1")
+			os.system("mkfs.vfat /dev/vg1/"+uid)
+			os.system("mkdir /staaso/"+uid)
+			os.system("mount /dev/vg1/"+uid" /staaso/"+uid)
+			os.system("chown "+uid+ " /staaso/"+uid)
+			os.system("service sshfs restart")
+			f1=open('staasoclient','w+')
+			f1.write("os.system('mkdir /media/rdbox')\nos.system('sshfs "+uid+"@"+k+":/staaso/"+uid" /media/rdbox')")
+			f1.close()
+			os.system('chmod +x staasoclient')			
+			break	
+	elif x == '3':
+		"""
+		uid=raw_input('Enter User Name')
+		pas=getpass.getpass('Enter Password')	
+		os.system('useradd  '  +uid)
+		os.system("echo " +pas+ " | passwd " +pas+ " --stdin" )
+		fi=open('cloud','wb')
+		fi.write("#!/usr/bin/python \nimport os \nos.system('ssh -X -l "+uid+"  "+k+ " gnome-terminal ')\n")
+		fi.close()
+		fi=open('client','wb')
+		fi.write("#!/usr/bin/python \nimport os\nos.system('chmod +x cloud') \nos.system('cp changet.desktop /usr/share/applications/cloudter.desktop')\n")
+		#fi.write("os.system('rm changet.desktop')")
+		"""
+		print "UNDER CONSTRUCTION"
+		break
+	else :
+		print "Kindly have a EYE TEST"
+		break
